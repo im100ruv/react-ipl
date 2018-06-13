@@ -1,4 +1,4 @@
-import React from "react";
+import React, {Fragment} from "react";
 
 const Teams = props => {
   // let scope = this;   // to be able to use this scope(for classes) inside any callback function
@@ -7,15 +7,14 @@ const Teams = props => {
     return <li
       key={abbr}
       onClick={props.getTeamYearWins.bind(this, abbr)}
-      style={{ paddingTop: "0.5em", cursor: "pointer" }}
     >{name}</li>;
   })
   return (
-    <div>
+    <Fragment>
       <h2>Teams</h2>
       <h4>Teams participated across seasons.</h4>
-      <ul style={{ listStyleType: "none" }}>{namesList}</ul>
-    </div >
+      <ul>{namesList}</ul>
+    </Fragment >
   )
 }
 

@@ -1,9 +1,9 @@
-import React from "react";
+import React, {Fragment} from "react";
 
 const Main = props => (
-  <div>
+  <Fragment>
     {props.comp}
-  </div>
+  </Fragment>
 )
 
 export default Main;

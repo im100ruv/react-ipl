@@ -1,11 +1,10 @@
-import React from "react";
+import React, {Fragment} from "react";
 
 const Wins = props => {
   let teamList = props.shortTeamNames.map((name, i) => {
     return <li
       key={i}
-      // onClick={props.getTeamYearWins.bind(this, abbr)}
-      style={{ paddingRight: "1em", cursor: "pointer", display: "inline-block" }}
+      onClick={props.getTeamYearWins.bind(this, name)}
     ><b>{name}</b></li>;
   })
   let currTeam = Object.keys(props.wins)[0]
@@ -15,19 +14,18 @@ const Wins = props => {
   for (const yr of Object.keys(props.wins[currTeam])) {
     winList.push(<li
       key={yr}
-      onClick={props.getTeamYearDetails.bind(this, currShortTeam, yr)}
-      style={{ paddingTop: "0.5em", cursor: "pointer" }}
+      onClick={props.getTeamYearDetails.bind(this, currShortTeam, yr, Object.keys(props.wins[currTeam]))}
     >{yr} => {props.wins[currTeam][yr]}</li>)
   }
   return (
-    <div>
-      <div style={{ backgroundColor: "#636161", marginBottom: "1em" }}>
-        <ul style={{ listStyleType: "none", padding: "1em" }}>{teamList}</ul>
+    <Fragment>
+      <div className="navbar" >
+        <ul>{teamList}</ul>
       </div>
       <h2>{currTeam}</h2>
       <h4>Wins each Year</h4>
-      <ul style={{ listStyleType: "none" }}>{winList}</ul>
-    </div >
+      <ul>{winList}</ul>
+    </Fragment >
   )
 }
 
