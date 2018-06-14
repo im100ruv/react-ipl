@@ -21,6 +21,7 @@ const TeamYearDetails = props => {
       className="nolink"
     >{obj.date} | {team1}  vs  {team2} | {winner} | {obj.MoM} | {obj.venue} | {obj.city}</li>;
   })
+  
   return (
     <Fragment>
       <div className="navbar" >
@@ -35,7 +36,7 @@ const TeamYearDetails = props => {
       <h2>{props.name}</h2>
       <h4>Details of {props.yr}</h4>
       <ul>
-        <li><b>Date | Team1 vs Team2 | Winner | MoM | Venue | City</b></li>
+        <li className="nolink"><b>Date | Team1 vs Team2 | Winner | MoM | Venue | City</b></li>
         {detailList}
       </ul>
     </Fragment >

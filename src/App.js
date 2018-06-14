@@ -1,22 +1,27 @@
 import React, { Component } from 'react';
 import './App.css';
-import Main from './components/mainComponent';
-import Home from './components/home';
-import Teams from './components/teams';
-// import Players from './components/players';
-import Wins from './components/wins';
-import TeamYearDetails from './components/teamYearDetails';
+import Home from './components/Home';
+import Teams from './components/Teams';
+// import Players from './components/Players';
+import Wins from './components/Wins';
+import TeamYearDetails from './components/TeamYearDetails';
 
 class App extends Component {
   state = {
     shortTeamNames: undefined,
-    comp: <Home />
+    comp: {
+      compName: "Home"
+    }
   }
+
   setHome = () => {
     this.setState({
-      comp: <Home />
+      comp: {
+        compName: "Home"
+      }
     })
   }
+
   getTeams = async (e) => {
     e.preventDefault()
     const api_call = await fetch('http://localhost:8082/api/teams')
@@ -27,31 +32,35 @@ class App extends Component {
     })
     this.setState({
       shortTeamNames: shortTeamNames,
-      comp: <Teams
-        teams={teamNames}
-        getTeamYearWins={this.getTeamYearWins}
-      />
+      comp: {
+        compName: "Teams",
+        teams: teamNames,
+        getTeamYearWins: this.getTeamYearWins
+      }
     })
   }
+
   getPlayers = async (e) => {
     e.preventDefault()
     alert("Module under construction")
     // const api_call = await fetch('http://localhost:8082/api/teams')
     // const teamNames = await api_call.json()
     // this.setState({
-    //   comp: <Teams teams={teamNames}/>
+    //   comp: {}
     // })
   }
+
   getTeamYearWins = async (key) => {
     const api_call = await fetch(`http://localhost:8082/api/teams/${key}`)
     const teamWins = await api_call.json()
     this.setState({
-      comp: <Wins
-        wins={teamWins}
-        getTeamYearDetails={this.getTeamYearDetails}
-        shortTeamNames={this.state.shortTeamNames}
-        getTeamYearWins={this.getTeamYearWins}
-      />
+      comp: {
+        compName: "Wins",
+        wins: teamWins,
+        shortTeamNames: this.state.shortTeamNames,
+        getTeamYearWins: this.getTeamYearWins,
+        getTeamYearDetails: this.getTeamYearDetails
+      }
     })
   }
 
@@ -59,30 +68,56 @@ class App extends Component {
     const api_call = await fetch(`http://localhost:8082/api/teams/${shortTeam}/${yr}`)
     const teamYearDetails = await api_call.json()
     this.setState({
-      comp: <TeamYearDetails
-        details={teamYearDetails}
-        yr={yr}
-        yearList={yearList}
-        name={shortTeam}
-        getTeamYearDetails={this.getTeamYearDetails}
-        getTeamYearWins={this.getTeamYearWins}
-      />
+      comp: {
+        compName: "TeamYearDetails",
+        details: teamYearDetails,
+        yr: yr,
+        yearList: yearList,
+        name: shortTeam,
+        getTeamYearDetails: this.getTeamYearDetails,
+        getTeamYearWins: this.getTeamYearWins
+      }
     })
   }
 
   render() {
+    let myComponent = ""
+    if (this.state.comp.compName === "Home") {
+      myComponent = <Home />
+    } else if (this.state.comp.compName === "Teams") {
+      myComponent = <Teams
+        teams={this.state.comp.teams}
+        getTeamYearWins={this.state.comp.getTeamYearWins}
+      />
+    } else if (this.state.comp.compName === "Wins") {
+      myComponent = <Wins
+        wins={this.state.comp.wins}
+        shortTeamNames={this.state.shortTeamNames}
+        getTeamYearDetails={this.state.comp.getTeamYearDetails}
+        getTeamYearWins={this.state.comp.getTeamYearWins}
+      />
+    } else if (this.state.comp.compName === "TeamYearDetails") {
+      myComponent = <TeamYearDetails
+        details={this.state.comp.details}
+        yr={this.state.comp.yr}
+        yearList={this.state.comp.yearList}
+        name={this.state.comp.name}
+        getTeamYearDetails={this.state.comp.getTeamYearDetails}
+        getTeamYearWins={this.state.comp.getTeamYearWins}
+      />
+    }
     return (
       <div className="app">
         <div className="sidebar" >
           <ul style={{ listStyleType: "none", padding: 0 }}>
             <li onClick={this.setHome} > Home </li>
             <li onClick={this.getTeams} > Teams </li>
-            <li onClick={this.getPlayers} > Players </li>
+            <li className="nolink" onClick={this.getPlayers} > Players </li>
           </ul>
         </div>
 
         <div className="main">
-          <Main comp={this.state.comp} />
+          {myComponent}
         </div>
       </div>
     );

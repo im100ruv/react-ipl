@@ -9,7 +9,6 @@ const Wins = props => {
   })
   let currTeam = Object.keys(props.wins)[0]
   let currShortTeam = currTeam.match(/[A-Z]/g).join('')
-  console.log(currShortTeam)
   let winList = []
   for (const yr of Object.keys(props.wins[currTeam])) {
     winList.push(<li
@@ -17,6 +16,7 @@ const Wins = props => {
       onClick={props.getTeamYearDetails.bind(this, currShortTeam, yr, Object.keys(props.wins[currTeam]))}
     >{yr} => {props.wins[currTeam][yr]}</li>)
   }
+  
   return (
     <Fragment>
       <div className="navbar" >

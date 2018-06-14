@@ -59,12 +59,16 @@
   color: #02028a;
 }
 
-.back {
+.main .back {
   display: inline-block;
   margin-bottom: 1em;
   color: #020349;
 }
 
-.nolink {
-  cursor: none;
+.sidebar .nolink {
+  cursor: default;
+}
+
+.main .nolink {
+  cursor: default;
 }

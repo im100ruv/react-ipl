@@ -9,6 +9,7 @@ const Teams = props => {
       onClick={props.getTeamYearWins.bind(this, abbr)}
     >{name}</li>;
   })
+  
   return (
     <Fragment>
       <h2>Teams</h2>
